@@ -17,12 +17,12 @@ namespace CurrentThread {
     extern __thread int t_tidStringLength;
     extern __thread const char *t_threadName;
 
-    void cachedTid();
+    void cacheTid();
 
     inline pid_t tid()
     {
         if (t_cachedTid == 0) {
-            cachedTid();
+            cacheTid();
         }
         return t_cachedTid;
     }
