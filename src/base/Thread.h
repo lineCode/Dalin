@@ -7,7 +7,6 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-#include <atomic>
 #include <pthread.h>
 #include <functional>
 #include <string>
@@ -31,8 +30,6 @@ namespace Laardi {
         pid_t tid() const { return tid_; }
         const string& name() const { return name_; }
 
-        static int numCreated() { return numCreated_.load(); }
-
         void run(); // FIXME: should be private
     private:
         void setDefaultName();
@@ -43,8 +40,6 @@ namespace Laardi {
         pid_t tid_;
         ThreadFunc func_;
         string name_;
-
-        static std::atomic<int32_t> numCreated_;
     };
 }
 

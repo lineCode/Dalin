@@ -53,8 +53,6 @@ namespace Detail {
 
 using namespace Laardi;
 
-std::atomic<int32_t> numCreated_;
-
 Thread::Thread(const ThreadFunc &func, const string &name)
   : started_(false),
     joined_(false),
@@ -75,11 +73,9 @@ Thread::~Thread()
 
 void Thread::setDefaultName()
 {
-    int num = ++numCreated_;
-
     if (name_.empty()) {
         char buf[32];
-        snprintf(buf, sizeof(buf), "Thread%d", num);
+        snprintf(buf, sizeof(buf), "Thread%d", CurrentThread::tid());
         name_ = buf;
     }
 }
