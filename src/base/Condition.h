@@ -42,7 +42,7 @@ namespace Laardi {
         {
             MCHECK(pthread_cond_broadcast(&cond_));
         }
-        
+
     private:
         MutexLock &mutex_;
         pthread_cond_t cond_;
