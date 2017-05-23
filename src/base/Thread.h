@@ -18,6 +18,7 @@ namespace Laardi {
         typedef std::function<void ()> ThreadFunc;
 
         explicit Thread(const ThreadFunc&, const string &name = string());
+        
         ~Thread();
 
         Thread(const Thread&) = delete;
