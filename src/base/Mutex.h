@@ -23,6 +23,7 @@ namespace Laardi {
         {
             MCHECK(pthread_mutex_init(&mutex_, NULL));
         }
+
         ~MutexLock()
         {
             assert(holder_ == 0);
