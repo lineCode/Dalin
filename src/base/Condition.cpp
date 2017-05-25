@@ -9,7 +9,7 @@
 #include <errno.h>
 
 // return true if time out, false otherwise
-bool Laardi::Condition::waitForSeconds(double seconds)
+bool Xgeer::Condition::waitForSeconds(double seconds)
 {
     struct timespec time;
     clock_gettime(CLOCK_REALTIME, &time);

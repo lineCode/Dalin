@@ -10,7 +10,7 @@
 #include "Condition.h"
 #include "Mutex.h"
 
-namespace Laardi {
+namespace Xgeer {
     class CountDownLatch {
     public:
         explicit CountDownLatch(int count);

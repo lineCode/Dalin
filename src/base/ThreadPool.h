@@ -18,7 +18,7 @@
 #include <memory>
 #include <deque>
 
-namespace Laardi {
+namespace Xgeer {
     class ThreadPool {
     public:
         typedef std::function<void ()> Task;

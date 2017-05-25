@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include "Mutex.h"
 
-namespace Laardi {
+namespace Xgeer {
     class Condition {
     public:
         explicit Condition(MutexLock &mutex)

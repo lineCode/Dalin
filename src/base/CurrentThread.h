@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <stdint.h>
 
-namespace Laardi {
+namespace Xgeer {
 namespace CurrentThread {
     extern __thread pid_t t_cachedTid;
     extern __thread char t_tidString[32];

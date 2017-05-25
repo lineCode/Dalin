@@ -13,7 +13,7 @@
 #include <sys/prctl.h>
 #include <exception>
 
-namespace Laardi {
+namespace Xgeer {
 namespace CurrentThread {
     __thread pid_t t_cachedTid = 0;
     __thread char t_tidString[32];
@@ -51,7 +51,7 @@ namespace Detail {
 }
 }
 
-using namespace Laardi;
+using namespace Xgeer;
 
 Thread::Thread(const ThreadFunc &func, const string &name)
   : started_(false),
@@ -103,7 +103,7 @@ void Thread::run()
 {
     tid_ = CurrentThread::tid();
 
-    CurrentThread::t_threadName = name_.empty() ? "LaardiThread" : name_.c_str();
+    CurrentThread::t_threadName = name_.empty() ? "XgeerThread" : name_.c_str();
     ::prctl(PR_SET_NAME, CurrentThread::t_threadName);
 
     try {

@@ -15,7 +15,7 @@
 #define MCHECK(ret) ({ __typeof__(ret) errnum = (ret);  \
                        assert(errnum == 0); })
 
-namespace Laardi {
+namespace Xgeer {
     class MutexLock {
     public:
         MutexLock()

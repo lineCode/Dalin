@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <exception>
 
-using namespace Laardi;
+using namespace Xgeer;
 
 ThreadPool::ThreadPool(const string &name)
   : mutex_(),

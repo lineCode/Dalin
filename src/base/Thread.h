@@ -11,14 +11,14 @@
 #include <functional>
 #include <string>
 
-namespace Laardi {
+namespace Xgeer {
     using std::string;
     class Thread {
     public:
         typedef std::function<void ()> ThreadFunc;
 
         explicit Thread(const ThreadFunc&, const string &name = string());
-        
+
         ~Thread();
 
         Thread(const Thread&) = delete;
