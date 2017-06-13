@@ -39,8 +39,7 @@ void ThreadPool::start(int numthreads)
         char id[32];
         snprintf(id, sizeof(id), "%d", i + 1);
         threads_.push_back(std::unique_ptr<Thread>(new Thread(
-            [&](){ this->runInThread(); }, name_ + id
-        )));
+            [&](){ this->runInThread(); }, name_ + id)));
         threads_[i]->start();
     }
 

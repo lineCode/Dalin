@@ -10,19 +10,17 @@
 #include <pthread.h>
 #include <functional>
 #include <string>
+#include "Noncopyable.h"
 
 namespace Xgeer {
     using std::string;
-    class Thread {
+    class Thread : Noncopyable {
     public:
         typedef std::function<void ()> ThreadFunc;
 
         explicit Thread(const ThreadFunc&, const string &name = string());
 
         ~Thread();
-
-        Thread(const Thread&) = delete;
-        Thread &operator=(const Thread&) = delete;
 
         void start();
         int join();

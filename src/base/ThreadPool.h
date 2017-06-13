@@ -17,17 +17,15 @@
 #include <string>
 #include <memory>
 #include <deque>
+#include "Noncopyable.h"
 
 namespace Xgeer {
-    class ThreadPool {
+    class ThreadPool : Noncopyable {
     public:
         typedef std::function<void ()> Task;
 
         explicit ThreadPool(const string &name = string("ThreadPool"));
         ~ThreadPool();
-
-        ThreadPool(const ThreadPool&) = delete;
-        ThreadPool &operator=(const ThreadPool&) = delete;
 
         void setMaxQueueSize(int maxSize) { maxQueueSize_ = maxSize; }
 

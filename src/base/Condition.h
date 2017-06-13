@@ -9,9 +9,10 @@
 
 #include <pthread.h>
 #include "Mutex.h"
+#include "Noncopyable.h"
 
 namespace Xgeer {
-    class Condition {
+    class Condition : Noncopyable {
     public:
         explicit Condition(MutexLock &mutex)
           : mutex_(mutex)

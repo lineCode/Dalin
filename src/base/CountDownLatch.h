@@ -9,14 +9,12 @@
 
 #include "Condition.h"
 #include "Mutex.h"
+#include "Noncopyable.h"
 
 namespace Xgeer {
-    class CountDownLatch {
+    class CountDownLatch : Noncopyable {
     public:
         explicit CountDownLatch(int count);
-
-        CountDownLatch(const CountDownLatch&) = delete;
-        CountDownLatch &operator=(const CountDownLatch&) = delete;
 
         void wait();
 

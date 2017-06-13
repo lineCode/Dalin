@@ -1,4 +1,3 @@
-//
 // Mutex.h
 //
 // Copyright (c) 2017 Jiawei Feng
@@ -11,12 +10,13 @@
 #include <assert.h>
 #include "Thread.h"
 #include "CurrentThread.h"
+#include "Noncopyable.h"
 
 #define MCHECK(ret) ({ __typeof__(ret) errnum = (ret);  \
                        assert(errnum == 0); })
 
 namespace Xgeer {
-    class MutexLock {
+    class MutexLock : Noncopyable {
     public:
         MutexLock()
           : holder_(0)
@@ -29,9 +29,6 @@ namespace Xgeer {
             assert(holder_ == 0);
             MCHECK(pthread_mutex_destroy(&mutex_));
         }
-
-        MutexLock(const MutexLock&) = delete;
-        MutexLock &operator=(const MutexLock&) = delete;
 
         bool isLockedByThisThread() const
         {
@@ -62,7 +59,7 @@ namespace Xgeer {
     private:
         friend class Condition;
 
-        class UnassignGuard {
+        class UnassignGuard : Noncopyable {
         public:
             UnassignGuard(MutexLock &mutex)
               : owner_(mutex)
@@ -73,9 +70,6 @@ namespace Xgeer {
             {
                 owner_.assignHolder();
             }
-
-            UnassignGuard(const UnassignGuard&) = delete;
-            UnassignGuard &oprator(const UnassignGuard&) = delete;
 
         private:
             MutexLock &owner_;
@@ -94,7 +88,7 @@ namespace Xgeer {
         pid_t holder_;
     };
 
-    class MutexLockGuard {
+    class MutexLockGuard : Noncopyable {
     public:
         MutexLockGuard(MutexLock &mutex)
           : mutex_(mutex)
@@ -105,10 +99,6 @@ namespace Xgeer {
         {
             mutex_.unlock();
         }
-
-        MutexLockGuard(const MutexLockGuard&) = delete;
-        MutexLockGuard &operator=(const MutexLockGuard&) = delete;
-
 
     private:
         MutexLock &mutex_;
