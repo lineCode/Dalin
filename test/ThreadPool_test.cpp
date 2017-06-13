@@ -28,7 +28,7 @@ void test(int maxSize)
     printf("Test ThreadPool with max queue size = %d\n", maxSize);
     Xgeer::ThreadPool pool("Main ThreadPool");
     pool.setMaxQueueSize(maxSize);
-    pool.start(maxSize);
+    pool.start(5);
 
     printf("Adding print task\n");
     pool.addTask(print);
