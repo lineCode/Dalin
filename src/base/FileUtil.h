@@ -9,10 +9,11 @@
 
 #include <stdio.h>
 #include <string>
+#include "Noncopyable.h"
 
 namespace Xgeer {
 namespace FileUtil {
-    class AppendFile {
+    class AppendFile : Noncopyable {
     public:
         explicit AppendFile(std::string fileName);
         ~AppendFile();

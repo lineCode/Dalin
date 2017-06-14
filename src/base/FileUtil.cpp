@@ -12,7 +12,7 @@
 using namespace Xgeer::FileUtil;
 
 AppendFile::AppendFile(std::string fileName)
-: fp_(fopen(fileName.c_str(), "ae")),
+ : fp_(fopen(fileName.c_str(), "ae")),
   writtenBytes_(0)
 {
     assert(fp_);
@@ -33,7 +33,7 @@ void AppendFile::append(const char *logLine, size_t len)
         if (x == 0) {
             int err = ferror(fp_);
             if (err) {
-                fprintf(stderr, "AppendFile::append() failed %s\n", strerror(err));
+                fprintf(stderr, "AppendFile::append() failed %s\n", strerror(err));// FIXME: strerror_r & __thread
             }
             break;
         }
