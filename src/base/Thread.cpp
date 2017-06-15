@@ -88,7 +88,7 @@ void Thread::start()
 
     if (pthread_create(&pthreadId_, NULL, Detail::startThread, this)) {
         started_ = false;
-        printf("Failed in pthread_create\n"); // FIXME: log
+        printf("Failed in pthread_create\n");
     }
 }
 
