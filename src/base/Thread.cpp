@@ -88,7 +88,7 @@ void Thread::start()
 
     if (pthread_create(&pthreadId_, NULL, Detail::startThread, this)) {
         started_ = false;
-        fprintf(stderr, "Failed in pthread_create\n");
+        fprintf(stderr, "SYS FATAL: Failed in pthread_create\n");
     }
 }
 
