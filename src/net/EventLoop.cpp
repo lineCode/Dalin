@@ -39,14 +39,13 @@ void EventLoop::loop()
     assertInLoopThread();
     looping_ = true;
 
-    //FIXME: working
+    ::poll(NULL, 0, 5 * 1000);
 
     looping_ = false;
 }
 
 void EventLoop::abortNotInLoopThread()
 {
-    fprintf(stderr, "EventLoop::abortNotInLoopThread - EventLoop %p was created in thread id = %d,\
+    fprintf(stderr, "FATAL: EventLoop::abortNotInLoopThread - EventLoop %p was created in thread id = %d,\
         current thread id = %d\n", this, tid_, CurrentThread::tid());
-    abort();
 }
