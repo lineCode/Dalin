@@ -19,7 +19,7 @@ EventLoop::EventLoop()
    tid_(CurrentThread::tid())
 {
     if (t_loopInThisThread) {
-        fprintf(stderr, "Another EventLoop %p exists in this thread %d", t_loopInThisThread, tid_);
+        fprintf(stderr, "Another EventLoop %p exists in this thread %d\n", t_loopInThisThread, tid_);
         abort();
     }
     else {
