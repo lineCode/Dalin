@@ -19,8 +19,8 @@ EventLoop::EventLoop()
    tid_(CurrentThread::tid())
 {
     if (t_loopInThisThread) {
-        fprintf(stderr, "Another EventLoop %p exists in this thread %d",
-            t_loopInThisThread, tid_);
+        fprintf(stderr, "Another EventLoop %p exists in this thread %d", t_loopInThisThread, tid_);
+        abort();
     }
     else {
         t_loopInThisThread = this;
@@ -46,6 +46,8 @@ void EventLoop::loop()
 
 void EventLoop::abortNotInLoopThread()
 {
-    fprintf(stderr, "FATAL: EventLoop::abortNotInLoopThread - EventLoop %p was created in thread id = %d,\
+    fprintf(stderr,
+        "FATAL: EventLoop::abortNotInLoopThread - EventLoop %p was created in thread id = %d,\
         current thread id = %d\n", this, tid_, CurrentThread::tid());
+    abort();
 }
