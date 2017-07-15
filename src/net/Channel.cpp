@@ -5,6 +5,7 @@
 //
 
 #include "Channel.h"
+#include "EventLoop.h"
 #include <stdio.h>
 #include <poll.h>
 
@@ -25,7 +26,7 @@ Channel::Channel(EventLoop *loop, int fd)
 
 void Channel::update()
 {
-    //TODO
+    loop_->updateChannel(this);
 }
 
 void Channel::handleEvent()
