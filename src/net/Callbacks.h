@@ -10,11 +10,9 @@
 #include <functional>
 
 namespace Xgeer {
-namespace Detail {
 
 typedef std::function<void()> TimerCallback;
 
-}
 }
 
 #endif
