@@ -104,7 +104,7 @@ public:
     {
         mutex_.unlock();
     }
-    
+
 private:
     MutexLock &mutex_;
 };
