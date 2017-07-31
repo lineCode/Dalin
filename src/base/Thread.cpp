@@ -47,7 +47,7 @@ void sleepUsec(int64_t usec)
 
 }
 
-namespace Detail {
+namespace Detail {  // Not visible to users.
 
 void *startThread(void *arg)
 {
