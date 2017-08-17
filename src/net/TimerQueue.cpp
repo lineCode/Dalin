@@ -150,7 +150,7 @@ void TimerQueue::reset(std::vector<Entry> &expired, Xgeer::Timestamp now)
             insert(it->second.get());
         }
         else {
-            it->second.release();
+            it->second.reset(NULL);
         }
     }
 
