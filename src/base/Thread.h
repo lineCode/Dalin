@@ -28,6 +28,7 @@ public:
     pid_t tid() const { return tid_; }
     const std::string &name() const { return name_; }
 
+    // Only called by void* Detail::startThread(void *arg)
     void run();
 private:
     void setDefaultName();
