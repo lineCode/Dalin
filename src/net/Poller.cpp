@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <poll.h>
 
+using namespace Xgeer;
 using namespace Xgeer::Net;
 
 Poller::Poller(EventLoop *loop)
@@ -21,6 +22,40 @@ Poller::Poller(EventLoop *loop)
 Poller::~Poller()
 {
 
+}
+
+Timestamp Poller::poll(int timeouts, ChannelList *activeChannels)
+{
+    int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeouts);
+    Timestamp now(Timestamp::now());
+
+    if (numEvents > 0) {
+        fillActiveChannels(numEvents, activeChannels);
+    }
+    else if (numEvents < 0) {
+        fprintf(stderr, "Failed in Poller::poll()\n");
+        abort();
+    }
+
+    return now;
+}
+
+void Poller::fillActiveChannels(int numEvents, ChannelList *activeChannels)
+{
+    for (auto pfd = pollfds_.begin(); pfd != pollfds_.end(); ++pfd) {
+        if (pfd->revents > 0) {
+            --numEvents;
+
+            auto ch =channels_.find(pfd->fd);
+            assert(ch != channels_.end());
+
+            Channel *channel = ch->second;
+            assert(channel->fd() == pfd->fd);
+            channel->set_revents(pfd->revents);
+
+            activeChannels->push_back(channel);
+        }
+    }
 }
 
 void Poller::updateChannel(Channel *channel)
