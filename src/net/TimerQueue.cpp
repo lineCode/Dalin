@@ -49,7 +49,6 @@ void readTimerfd(int timerfd, Timestamp now)
     ssize_t n = ::read(timerfd, &howmany, sizeof(howmany));
     if (n != sizeof(howmany)) {
         fprintf(stderr, "TimerQueue::handleRead() reads %ld bytes instead of 8\n", n);
-        abort();
     }
 }
 
@@ -65,7 +64,6 @@ void resetTimerfd(int timerfd, Timestamp expiration)
     int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
     if (ret) {
         fprintf(stderr, "Failed in timerfd_settime\n");
-        abort();
     }
 }
 
