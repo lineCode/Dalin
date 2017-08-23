@@ -136,6 +136,14 @@ void EventLoop::wakeup()
     }
 }
 
+void EventLoop::updateChannel(Channel *channel)
+{
+    assert(channel->ownerLoop() == this);
+    assertInLoopThread();
+
+    poller_->updateChannel(channel);
+}
+
 void EventLoop::handleRead()
 {
     uint64_t one = 1;
@@ -160,4 +168,21 @@ void EventLoop::doPendingFunctors()
     }
 
     callingPendingFunctors_ = false;
+}
+
+TimerId EventLoop::runAt(const Timestamp &time, const TimerCallback &cb)
+{
+    return timerQueue_->addTimer(cb, time, 0.0);
+}
+
+TimerId EventLoop::runAfter(double delay, const TimerCallback &cb)
+{
+    Timestamp time(addTime(Timestamp::now(), delay));
+    return runAt(time, cb);
+}
+
+TimerId EventLoop::runEvery(double interval, const TimerCallback &cb)
+{
+    Timestamp time(addTime(Timestamp::now(), interval));
+    return timerQueue_->addTimer(cb, time, interval);
 }
