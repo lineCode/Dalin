@@ -34,7 +34,6 @@ Timestamp Poller::poll(int timeouts, ChannelList *activeChannels)
     }
     else if (numEvents < 0) {
         fprintf(stderr, "Failed in Poller::poll()\n");
-        abort();
     }
 
     return now;
