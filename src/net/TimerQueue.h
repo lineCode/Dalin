@@ -36,7 +36,7 @@ public:
     // Must be thread safe, usually be called from other threads.
     TimerId addTimer(const TimerCallback &cb, Timestamp when, double interval);
 
-    void cancel(TimerId timerId); // TODO
+    // void cancel(TimerId timerId); // TODO
 
 private:
     typedef std::pair<Timestamp, std::unique_ptr<Timer>> Entry;
