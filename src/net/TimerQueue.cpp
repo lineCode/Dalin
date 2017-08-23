@@ -5,7 +5,7 @@
 //
 
 #include "TimerQueue.h"
-// #include "EventLoop.h" TODO
+#include "EventLoop.h"
 #include "Timer.h"
 #include "TimerId.h"
 
@@ -95,14 +95,15 @@ TimerQueue::~TimerQueue()
 TimerId TimerQueue::addTimer(const TimerCallback &cb, Xgeer::Timestamp when, double interval)
 {
     Timer *timer = new Timer(cb, when, interval);
-    // loop_ TODO
+
+    loop_->runInLoop([&](){ this->addTimerInLoop(timer); });
 
     return TimerId(timer);
 }
 
 void TimerQueue::addTimerInLoop(Timer *timer)
 {
-    // loop_ TODO
+    loop_->assertInLoopThread();
 
     bool earliestChanged = insert(timer);
     if (earliestChanged) {
@@ -112,7 +113,7 @@ void TimerQueue::addTimerInLoop(Timer *timer)
 
 void TimerQueue::handleRead()
 {
-    // loop_ TODO
+    loop_->assertInLoopThread();
 
     Timestamp now(Timestamp::now());
     readTimerfd(timerfd_, now);
