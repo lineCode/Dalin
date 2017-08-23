@@ -125,6 +125,7 @@ void EventLoop::abortNotInThread()
     fprintf(stderr, "EventLoop::abortNotInThread - EventLoop %p \
             was created in threadId_ %d, current thread id = %d\n", \
             this, threadId_, CurrentThread::tid());
+    abort();
 }
 
 void EventLoop::wakeup()
