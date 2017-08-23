@@ -90,7 +90,7 @@ private:
     std::unique_ptr<Channel> wakeupChannel_;
     ChannelList activeChannels_;
     MutexLock mutex_;
-    std::vector<Functor> pendingFunctors_; // Guarded by mutex_
+    std::vector<Functor> pendingFunctors_; // Visable to other threads, guarded by mutex_
 };
 
 }
