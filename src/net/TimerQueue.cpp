@@ -88,6 +88,7 @@ TimerQueue::~TimerQueue()
 {
     ::close(timerfd_);
     // don't remove channel, since we're in EventLoop::dtor().
+    std::for_each(timers_.begin(), timers_.end(), [](const Entry &value){ delete value.second; });
 }
 
 TimerId TimerQueue::addTimer(const TimerCallback &cb, Xgeer::Timestamp when, double interval)
@@ -129,9 +130,12 @@ std::vector<TimerQueue::Entry> TimerQueue::getExpired(Xgeer::Timestamp now)
 {
     std::vector<Entry> expired;
 
-    Entry sentry = std::make_pair(now, std::unique_ptr<Timer>(reinterpret_cast<Timer*>(UINTPTR_MAX)));
-    auto it = timers_.lower_bound(sentry);
+    Entry sentry = std::make_pair(now, reinterpret_cast<Timer*>(UINTPTR_MAX));
+    TimerList::iterator it = timers_.lower_bound(sentry);
     assert(it == timers_.end() || now < it->first);
+
+    std::copy(timers_.begin(), it, std::back_inserter(expired));
+    timers_.erase(timers_.begin(), it);
 
     std::copy(timers_.begin(), it, std::back_inserter(expired));
     timers_.erase(timers_.begin(), it);
@@ -146,10 +150,10 @@ void TimerQueue::reset(std::vector<Entry> &expired, Xgeer::Timestamp now)
     for (auto it = expired.begin(); it != expired.end(); ++it) {
         if (it->second->repeat()) {
             it->second->restart(now);
-            insert(it->second.get());
+            insert(it->second);
         }
         else {
-            it->second.reset(NULL);
+            delete it->second;
         }
     }
 
@@ -172,7 +176,7 @@ bool TimerQueue::insert(Timer *timer)
         earliestChanged = true;
     }
 
-    auto result = timers_.insert(std::make_pair(when, std::unique_ptr<Timer>(timer)));
+    auto result = timers_.insert(std::make_pair(when, timer));
     assert(result.second);
 
     return earliestChanged;
