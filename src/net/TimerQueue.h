@@ -39,7 +39,7 @@ public:
     // void cancel(TimerId timerId); // TODO
 
 private:
-    typedef std::pair<Timestamp, std::unique_ptr<Timer>> Entry;
+    typedef std::pair<Timestamp, Timer*> Entry;
     typedef std::set<Entry> TimerList;
 
     void addTimerInLoop(Timer *timer);
@@ -54,8 +54,7 @@ private:
     EventLoop *loop_;
     const int timerfd_;
     Channel timerfdChannel_;
-    // Timer list sorted by expiration
-    TimerList timers_;
+    TimerList timers_; // Timer list sorted by expiration
 };
 
 }
