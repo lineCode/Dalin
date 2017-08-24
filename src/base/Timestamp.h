@@ -42,6 +42,8 @@ public:
     static Timestamp now();
     static Timestamp invaild() { return Timestamp(); }
 
+    std::string toString() const;
+
     static const int kMicroSecondsPerSecond = 1000 * 1000;
 private:
     int64_t microSecondsSinceEpoch_;
