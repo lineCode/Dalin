@@ -26,7 +26,7 @@ namespace Detail {
 int createEventfd()
 {
     int eventfd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
-    if (eventfd) {
+    if (eventfd < 0) {
         fprintf(stderr, "Failed in eventfd\n");
         abort();
     }
