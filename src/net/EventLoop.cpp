@@ -164,7 +164,7 @@ void EventLoop::doPendingFunctors()
         functors.swap(pendingFunctors_);
     }
 
-    for (size_t i = 0; i != pendingFunctors_.size(); ++i) {
+    for (size_t i = 0; i != functors.size(); ++i) {
         functors[i]();
     }
 
