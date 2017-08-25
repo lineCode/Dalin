@@ -1,5 +1,5 @@
 //
-// ThreadPool_test.cpp
+// test.cpp
 //
 // Copyright (c) 2017 Jiawei Feng
 //
@@ -13,20 +13,20 @@
 
 void print()
 {
-    printf("current thread = %d\n", Xgeer::CurrentThread::tid());
+    printf("current thread = %d\n", Dalin::CurrentThread::tid());
 }
 
 void printString(const std::string taskId)
 {
     printf("current thread = %d %s\n",
-        Xgeer::CurrentThread::tid(),taskId.c_str());
+        Dalin::CurrentThread::tid(),taskId.c_str());
     usleep(50 * 1000);
 }
 
 void test(int maxSize)
 {
     printf("Test ThreadPool with max queue size = %d\n", maxSize);
-    Xgeer::ThreadPool pool("Main ThreadPool");
+    Dalin::ThreadPool pool("Main ThreadPool");
     pool.setMaxQueueSize(maxSize);
     pool.start(5);
 
@@ -41,7 +41,7 @@ void test(int maxSize)
         pool.addTask([=](){ printString(taskId); });
     }
 
-    Xgeer::CountDownLatch latch(1);
+    Dalin::CountDownLatch latch(1);
     pool.addTask([&](){ latch.countDown(); });
     latch.wait();
     pool.stop();

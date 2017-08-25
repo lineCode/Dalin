@@ -7,7 +7,7 @@
 #ifndef NONCOPYABLE_H
 #define NONCOPYABLE_H
 
-namespace Xgeer {
+namespace Dalin {
 
 class Noncopyable {
 protected:

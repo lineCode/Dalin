@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <exception>
 
-using namespace Xgeer;
+using namespace Dalin;
 
 ThreadPool::ThreadPool(const std::string &name)
  : mutex_(),

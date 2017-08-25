@@ -11,7 +11,7 @@
 #include "Mutex.h"
 #include "Noncopyable.h"
 
-namespace Xgeer {
+namespace Dalin {
 
 class CountDownLatch : Noncopyable {
 public:

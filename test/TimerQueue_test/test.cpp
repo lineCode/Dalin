@@ -12,17 +12,17 @@
 #include <string>
 
 int cnt = 0;
-Xgeer::Net::EventLoop *g_loop;
+Dalin::Net::EventLoop *g_loop;
 
 void printTid()
 {
-    printf("pid = %d, tid = %d\n", getpid(), Xgeer::CurrentThread::tid());
-    printf("now %s\n", Xgeer::Timestamp::now().toString().c_str());
+    printf("pid = %d, tid = %d\n", getpid(), Dalin::CurrentThread::tid());
+    printf("now %s\n", Dalin::Timestamp::now().toString().c_str());
 }
 
 void print(const char *msg)
 {
-    printf("msg %s %s\n", Xgeer::Timestamp::now().toString().c_str(), msg);
+    printf("msg %s %s\n", Dalin::Timestamp::now().toString().c_str(), msg);
     if (++cnt == 20) {
         g_loop->quit();
     }
@@ -32,7 +32,7 @@ int main()
 {
     printTid();
 
-    Xgeer::Net::EventLoop loop;
+    Dalin::Net::EventLoop loop;
     g_loop = &loop;
 
     print("main");

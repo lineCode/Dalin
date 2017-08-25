@@ -14,13 +14,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
-using namespace Xgeer;
-using namespace Xgeer::Net;
+using namespace Dalin;
+using namespace Dalin::Net;
 
 __thread EventLoop *t_loopInThisThread = 0;
 const int kPollTimeMs = 10000;
 
-namespace Xgeer {
+namespace Dalin {
 namespace Detail {
 
 int createEventfd()

@@ -10,7 +10,7 @@
 #include <poll.h>
 #include <stdio.h>
 
-using namespace Xgeer::Net;
+using namespace Dalin::Net;
 
 const int Channel::kNoneEvent = 0;
 const int Channel::kReadEvent = POLLIN | POLLPRI;

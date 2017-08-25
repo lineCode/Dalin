@@ -16,7 +16,7 @@
 #define MCHECK(ret) ({ __typeof__(ret) errnum = (ret); \
                        assert(errnum == 0); })
 
-namespace Xgeer {
+namespace Dalin {
 
 class MutexLock : Noncopyable {
 public:

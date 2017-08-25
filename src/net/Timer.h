@@ -11,7 +11,7 @@
 #include "../base/Timestamp.h"
 #include "Callbacks.h"
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 // Internal class for timer event.

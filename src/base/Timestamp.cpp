@@ -7,7 +7,7 @@
 #include "Timestamp.h"
 #include <sys/time.h>
 
-using namespace Xgeer;
+using namespace Dalin;
 
 Timestamp Timestamp::now()
 {

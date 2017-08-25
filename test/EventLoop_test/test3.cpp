@@ -14,7 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 
-Xgeer::Net::EventLoop *g_loop;
+Dalin::Net::EventLoop *g_loop;
 
 void timeout()
 {
@@ -24,11 +24,11 @@ void timeout()
 
 int main()
 {
-    Xgeer::Net::EventLoop loop;
+    Dalin::Net::EventLoop loop;
     g_loop = &loop;
 
     int timerfd = ::timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK | TFD_CLOEXEC);
-    Xgeer::Net::Channel channel(&loop, timerfd);
+    Dalin::Net::Channel channel(&loop, timerfd);
     channel.setReadCallback(timeout);
     channel.enableReading();
 

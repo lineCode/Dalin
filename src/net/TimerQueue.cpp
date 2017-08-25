@@ -15,7 +15,7 @@
 #include <string.h>
 #include <algorithm>
 
-namespace Xgeer {
+namespace Dalin {
 namespace Detail {
 
 int createTimerfd()
@@ -70,9 +70,9 @@ void resetTimerfd(int timerfd, Timestamp expiration)
 }
 }
 
-using namespace Xgeer;
-using namespace Xgeer::Net;
-using namespace Xgeer::Detail;
+using namespace Dalin;
+using namespace Dalin::Net;
+using namespace Dalin::Detail;
 
 TimerQueue::TimerQueue(EventLoop *loop)
  : loop_(loop),
@@ -91,7 +91,7 @@ TimerQueue::~TimerQueue()
     std::for_each(timers_.begin(), timers_.end(), [](const Entry &value){ delete value.second; });
 }
 
-TimerId TimerQueue::addTimer(const TimerCallback &cb, Xgeer::Timestamp when, double interval)
+TimerId TimerQueue::addTimer(const TimerCallback &cb, Dalin::Timestamp when, double interval)
 {
     Timer *timer = new Timer(cb, when, interval);
 
@@ -126,7 +126,7 @@ void TimerQueue::handleRead()
     reset(expired, now);
 }
 
-std::vector<TimerQueue::Entry> TimerQueue::getExpired(Xgeer::Timestamp now)
+std::vector<TimerQueue::Entry> TimerQueue::getExpired(Dalin::Timestamp now)
 {
     std::vector<Entry> expired;
 
@@ -140,7 +140,7 @@ std::vector<TimerQueue::Entry> TimerQueue::getExpired(Xgeer::Timestamp now)
     return expired;
 }
 
-void TimerQueue::reset(std::vector<Entry> &expired, Xgeer::Timestamp now)
+void TimerQueue::reset(std::vector<Entry> &expired, Dalin::Timestamp now)
 {
     Timestamp nextExpire;
 

@@ -19,7 +19,7 @@
 #include <memory>
 #include <deque>
 
-namespace Xgeer {
+namespace Dalin {
 
 class ThreadPool : Noncopyable {
 public:
@@ -48,7 +48,7 @@ public:
 
     size_t queueSize() const;
     void addTask(const Task &task);
-    
+
 private:
     bool isFull() const;
     void runInThread();

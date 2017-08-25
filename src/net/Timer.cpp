@@ -6,7 +6,7 @@
 
 #include "Timer.h"
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 void Timer::restart(Timestamp now)

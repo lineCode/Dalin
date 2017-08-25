@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <string>
 
-namespace Xgeer {
+namespace Dalin {
 
 class Timestamp {
 public:

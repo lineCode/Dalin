@@ -14,19 +14,19 @@
 
 void threadFunc()
 {
-    printf("threadFunc(): pid = %d, tid = %d\n", getpid(), Xgeer::CurrentThread::tid());
+    printf("threadFunc(): pid = %d, tid = %d\n", getpid(), Dalin::CurrentThread::tid());
 
-    Xgeer::Net::EventLoop loop;
+    Dalin::Net::EventLoop loop;
     loop.loop();
 }
 
 int main()
 {
-    printf("main(): pid = %d, tid = %d\n", getpid(), Xgeer::CurrentThread::tid());
+    printf("main(): pid = %d, tid = %d\n", getpid(), Dalin::CurrentThread::tid());
 
-    Xgeer::Net::EventLoop loop;
+    Dalin::Net::EventLoop loop;
 
-    Xgeer::Thread thread(threadFunc);
+    Dalin::Thread thread(threadFunc);
     thread.start();
 
     loop.loop();

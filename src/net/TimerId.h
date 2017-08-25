@@ -7,7 +7,7 @@
 #ifndef TIMERID_H
 #define TIMERID_H
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 class Timer;

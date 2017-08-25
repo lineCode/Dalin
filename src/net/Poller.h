@@ -15,7 +15,7 @@
 
 struct pollfd;
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 class Channel;

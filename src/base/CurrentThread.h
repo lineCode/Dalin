@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <stdint.h>
 
-namespace Xgeer {
+namespace Dalin {
 namespace CurrentThread {
 
 extern __thread pid_t t_cachedTid;

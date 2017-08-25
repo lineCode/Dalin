@@ -8,7 +8,7 @@
 #include "../../src/net/EventLoop.h"
 #include "../../src/base/Thread.h"
 
-Xgeer::Net::EventLoop *g_loop;
+Dalin::Net::EventLoop *g_loop;
 
 void threadFunc()
 {
@@ -17,10 +17,10 @@ void threadFunc()
 
 int main()
 {
-    Xgeer::Net::EventLoop loop;
+    Dalin::Net::EventLoop loop;
     g_loop = &loop;
 
-    Xgeer::Thread thread(threadFunc);
+    Dalin::Thread thread(threadFunc);
     thread.start();
     thread.join();
 }

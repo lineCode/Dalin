@@ -9,7 +9,7 @@
 
 #include <functional>
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 typedef std::function<void ()> TimerCallback;

@@ -10,7 +10,7 @@
 
 
 // return true if time out, false otherwise.
-bool Xgeer::Condition::waitForSeconds(double seconds)
+bool Dalin::Condition::waitForSeconds(double seconds)
 {
     struct timespec time;
     clock_gettime(CLOCK_REALTIME, &time);

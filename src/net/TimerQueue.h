@@ -18,7 +18,7 @@
 #include "Channel.h"
 
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 class EventLoop;

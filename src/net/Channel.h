@@ -11,7 +11,7 @@
 
 #include "../base/Noncopyable.h"
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 class EventLoop;

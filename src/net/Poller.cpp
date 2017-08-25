@@ -10,8 +10,8 @@
 #include <assert.h>
 #include <poll.h>
 
-using namespace Xgeer;
-using namespace Xgeer::Net;
+using namespace Dalin;
+using namespace Dalin::Net;
 
 Poller::Poller(EventLoop *loop)
  : ownerLoop_(loop)

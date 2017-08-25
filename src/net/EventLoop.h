@@ -17,7 +17,7 @@
 #include <memory>
 #include <vector>
 
-namespace Xgeer {
+namespace Dalin {
 namespace Net {
 
 class Channel;

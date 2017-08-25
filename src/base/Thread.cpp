@@ -13,7 +13,7 @@
 #include <sys/prctl.h>
 #include <exception>
 
-namespace Xgeer {
+namespace Dalin {
 namespace CurrentThread {
 
 __thread pid_t t_cachedTid = 0;
@@ -110,7 +110,7 @@ void Thread::run()
 {
     tid_ = CurrentThread::tid();
 
-    CurrentThread::t_threadName = name_.empty() ? "XgeerThread" : name_.c_str();
+    CurrentThread::t_threadName = name_.empty() ? "DalinThread" : name_.c_str();
     ::prctl(PR_SET_NAME, CurrentThread::t_threadName);
 
     try {

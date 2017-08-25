@@ -6,7 +6,7 @@
 
 #include "CountDownLatch.h"
 
-using namespace Xgeer;
+using namespace Dalin;
 
 CountDownLatch::CountDownLatch(int count)
  : mutex_(),

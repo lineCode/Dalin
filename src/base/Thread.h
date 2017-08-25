@@ -12,7 +12,7 @@
 #include <functional>
 #include "Noncopyable.h"
 
-namespace Xgeer {
+namespace Dalin {
 
 class Thread : Noncopyable {
 public:
