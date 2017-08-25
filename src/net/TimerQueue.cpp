@@ -137,9 +137,6 @@ std::vector<TimerQueue::Entry> TimerQueue::getExpired(Xgeer::Timestamp now)
     std::copy(timers_.begin(), it, std::back_inserter(expired));
     timers_.erase(timers_.begin(), it);
 
-    std::copy(timers_.begin(), it, std::back_inserter(expired));
-    timers_.erase(timers_.begin(), it);
-
     return expired;
 }
 
