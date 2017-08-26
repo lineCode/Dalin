@@ -95,7 +95,7 @@ TimerId TimerQueue::addTimer(const TimerCallback &cb, Dalin::Timestamp when, dou
 {
     Timer *timer = new Timer(cb, when, interval);
 
-    loop_->runInLoop([&](){ this->addTimerInLoop(timer); });
+    loop_->runInLoop([&, timer](){ this->addTimerInLoop(timer); });
 
     return TimerId(timer);
 }
