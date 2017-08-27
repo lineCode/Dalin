@@ -137,3 +137,16 @@ void SocketsOps::listenOrdie(int sockfd)
         abort();
     }
 }
+
+struct sockaddr_in SocketsOps::getLocalAddr(int sockfd)
+{
+    struct sockaddr_in localAddr;
+    bzero(&localAddr, sizeof(localAddr));
+
+    socklen_t addrLen = sizeof(localAddr);
+    if (::getsockname(sockfd, sockaddr_cast(&localAddr), &addrLen) < 0) {
+        fprintf(stderr, "Failed in SocketsOps::getLocalAddr()\n");
+    }
+
+    return localAddr;
+}
