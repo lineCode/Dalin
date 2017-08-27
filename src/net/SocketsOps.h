@@ -11,7 +11,7 @@
 #include <endian.h>
 
 namespace Dalin {
-namespace Sockets {
+namespace SocketsOps {
 
 inline uint64_t hostToNetwork64(uint64_t host64)
 {

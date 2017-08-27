@@ -45,27 +45,27 @@ void setNonblockAndCloseOnExec(int sockfd)
 
 }
 
-int Sockets::createNonblockingOrDie()
+int SocketsOps::createNonblockingOrDie()
 {
     int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
     if (sockfd < 0) {
-        fprintf(stderr, "Failed in Sockets::createNonblockingOrDie()\n");
+        fprintf(stderr, "Failed in SocketsOps::createNonblockingOrDie()\n");
         abort();
     }
 
     return sockfd;
 }
 
-void Sockets::bindOrDie(int sockfd, const struct sockaddr_in &addr)
+void SocketsOps::bindOrDie(int sockfd, const struct sockaddr_in &addr)
 {
     int ret = ::bind(sockfd, sockaddr_cast(&addr), sizeof(addr));
     if (ret < 0) {
-        fprintf(stderr, "Failed in Sockets::bindOrDie()\n");
+        fprintf(stderr, "Failed in SocketsOps::bindOrDie()\n");
         abort();
     }
 }
 
-int Sockets::accept(int sockfd, struct sockaddr_in *addr)
+int SocketsOps::accept(int sockfd, struct sockaddr_in *addr)
 {
     socklen_t addrlen = sizeof(*addr);
 
@@ -73,7 +73,7 @@ int Sockets::accept(int sockfd, struct sockaddr_in *addr)
 
     if (connfd < 0) {
         int savedErrno = errno;
-        fprintf(stderr, "Failed in Sockets::accept() ");
+        fprintf(stderr, "Failed in SocketsOps::accept() ");
         switch (savedErrno) {
         case EAGAIN:
         case ECONNABORTED:
@@ -105,26 +105,26 @@ int Sockets::accept(int sockfd, struct sockaddr_in *addr)
 
     return connfd;
 }
-void Sockets::close(int sockfd)
+void SocketsOps::close(int sockfd)
 {
     if (::close(sockfd) < 0) {
-        fprintf(stderr, "Failed in Sockets::close()\n");
+        fprintf(stderr, "Failed in SocketsOps::close()\n");
     }
 }
 
-void Sockets::toHostPort(char *buf, size_t size, const struct sockaddr_in &addr)
+void SocketsOps::toHostPort(char *buf, size_t size, const struct sockaddr_in &addr)
 {
     char host[INET_ADDRSTRLEN] = "INVALID";
     ::inet_ntop(AF_INET, &addr.sin_addr, host, sizeof(host));
-    uint16_t port = Sockets::networkToHost16(addr.sin_port);
+    uint16_t port = SocketsOps::networkToHost16(addr.sin_port);
     snprintf(buf, size, "%s:%u", host, port);
 }
 
-void Sockets::fromHostPort(const char *ip, uint16_t port, struct sockaddr_in *addr)
+void SocketsOps::fromHostPort(const char *ip, uint16_t port, struct sockaddr_in *addr)
 {
     addr->sin_family = AF_INET;
     addr->sin_port = hostToNetwork16(port);
     if (::inet_pton(AF_INET, ip, &addr->sin_addr) < 0) {
-        fprintf(stderr, "Failed in Sockets::fromHostPort()\n");
+        fprintf(stderr, "Failed in SocketsOps::fromHostPort()\n");
     }
 }
