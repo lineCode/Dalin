@@ -14,8 +14,9 @@ using namespace Dalin::Net;
 
 static const in_addr_t kInaddrAny = INADDR_ANY;
 
-//static_assert(sizeof(InetAddress) == sizeof(struct sockaddr_in)); TODO
-constexpr bool yes = (sizeof(InetAddress) == sizeof(struct sockaddr_in));
+static_assert(sizeof(InetAddress) == sizeof(struct sockaddr_in),
+                "sizeof(InetAddress) != sizeof(struct sockaddr_in)");
+
 
 InetAddress::InetAddress(uint16_t port)
 {
