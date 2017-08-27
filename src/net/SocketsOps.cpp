@@ -128,3 +128,12 @@ void SocketsOps::fromHostPort(const char *ip, uint16_t port, struct sockaddr_in 
         fprintf(stderr, "Failed in SocketsOps::fromHostPort()\n");
     }
 }
+
+void SocketsOps::listenOrdie(int sockfd)
+{
+    int ret = ::listen(sockfd, SOMAXCONN);
+    if (ret < 0) {
+        fprintf(stderr, "Failed in SocketsOps::listenOrdie\n");
+        abort();
+    }
+}
