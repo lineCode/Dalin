@@ -22,7 +22,7 @@ class EventLoop;
 class Socket;
 
 // TCP connection, for both client and server usage.
-class TcpConnection : Noncopyable, std::enable_shared_from_this<TcpConnection> {
+class TcpConnection : Noncopyable, public std::enable_shared_from_this<TcpConnection> {
 public:
     // Constructs a TcpConnection with a connected sockfd.
     // User should not create this object.
@@ -37,6 +37,8 @@ public:
     const std::string &name() const { return name_; }
     const InetAddress &localAddress() { return localAddr_; }
     const InetAddress &peerAddress() { return peerAddr_; }
+
+    bool connected() const { return state_ == kConnected; }
 
     void setConnectionCallback(const ConnectionCallback &cb)
     {
