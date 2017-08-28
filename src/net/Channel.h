@@ -10,6 +10,7 @@
 #include <functional>
 
 #include "../base/Noncopyable.h"
+#include "../base/Timestamp.h"
 
 namespace Dalin {
 namespace Net {
@@ -22,13 +23,14 @@ class EventLoop;
 class Channel : Noncopyable {
 public:
     typedef std::function<void ()> EventCallback;
+    typedef std::function<void (Timestamp)> ReadEventCallback;
 
     Channel(EventLoop *loop, int fd);
     ~Channel();
 
-    void handleEvent();
+    void handleEvent(Timestamp receiveTime);
 
-    void setReadCallback(const EventCallback &cb)
+    void setReadCallback(const ReadEventCallback &cb)
     {
         readCallback_ = cb;
     }
@@ -76,7 +78,7 @@ private:
 
     bool eventHandling_;
 
-    EventCallback readCallback_;
+    ReadEventCallback readCallback_;
     EventCallback writeCallback_;
     EventCallback errorCallback_;
     EventCallback CloseCallback_;
