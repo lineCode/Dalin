@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 
+using std::placeholders::_1;
+
 namespace {
 
 Dalin::Net::EventLoop *CHECK_NOTNULL(Dalin::Net::EventLoop *loop)
@@ -68,5 +70,16 @@ void TcpServer::newConnection(int sockfd, const InetAddress &peerAddr)
     connections_[connName] = conn;
     conn->setConnectionCallback(connectionCallback_);
     conn->setMessageCallback(messageCallback_);
+    conn->setCloseCallback([&](const TcpConnectionPtr &conn){ this->removeConnection(conn); });
     conn->connectEstablished();
+}
+
+void TcpServer::removeConnection(const TcpConnectionPtr &conn)
+{
+    loop_->assertInLoopThread();
+
+    size_t n = connections_.erase(conn->name());
+    assert(n == 1);
+
+    loop_->queueInLoop([&](){ conn->connectDestroyed(); });
 }
