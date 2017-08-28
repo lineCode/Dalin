@@ -50,15 +50,27 @@ public:
     }
 
     // Internal use only.
-    // called when Tcpserver accepts a new connection.
+    void setCloseCallback(const CloseCallback &cb)
+    {
+        closeCallback_ = cb;
+    }
+
+    // Internal use only.
+    // called when TcpServer accepts a new connection.
     // should be called only once.
     void connectEstablished();
+    // called when TcpServer has removed me from its map
+    // should be called only once.
+    void connectDestroyed();
 
 private:
-    enum stateE { kConnecting, kConnected };
+    enum stateE { kConnecting, kConnected, kDisconnected};
 
     void setState(stateE s) { state_ = s; }
     void handleRead();
+    void handleWrite();
+    void handleClose();
+    void handleError();
 
     EventLoop *loop_;
     std::string name_;
@@ -71,6 +83,7 @@ private:
     InetAddress peerAddr_;
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
+    CloseCallback closeCallback_;
 };
 
 }
