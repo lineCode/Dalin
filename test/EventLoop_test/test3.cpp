@@ -16,14 +16,15 @@
 
 Dalin::Net::EventLoop *g_loop;
 
-void timeout()
+void timeout(Dalin::Timestamp receiveTime)
 {
-    printf("Timeout!\n");
+    printf("%s Timeout!\n", receiveTime.toString().c_str());
     g_loop->quit();
 }
 
 int main()
 {
+    printf("%s started\n", Dalin::Timestamp::now().toString().c_str());
     Dalin::Net::EventLoop loop;
     g_loop = &loop;
 
