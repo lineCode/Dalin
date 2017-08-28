@@ -1,9 +1,9 @@
-test: test.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o
-	g++ -o test test.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o -lpthread
+test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o
+	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o -lpthread
 	rm *.o
 
-test.o: test.cpp
-	g++ -c -std=c++11 test.cpp
+test1.o: test1.cpp
+	g++ -c -std=c++11 test1.cpp
 Thread.o: ../../src/base/Thread.cpp
 	g++ -c -std=c++11 ../../src/base/Thread.cpp
 EventLoop.o: ../../src/net/EventLoop.cpp
