@@ -150,3 +150,16 @@ struct sockaddr_in SocketsOps::getLocalAddr(int sockfd)
 
     return localAddr;
 }
+
+int SocketsOps::getSocketError(int sockfd)
+{
+    int optVal;
+    socklen_t optLen = sizeof(optVal);
+
+    if (::getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &optVal, &optLen) < 0) {
+        return errno;
+    }
+    else {
+        return optVal;
+    }
+}
