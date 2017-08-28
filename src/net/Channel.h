@@ -24,6 +24,7 @@ public:
     typedef std::function<void ()> EventCallback;
 
     Channel(EventLoop *loop, int fd);
+    ~Channel();
 
     void handleEvent();
 
@@ -38,6 +39,10 @@ public:
     void setErrorCallback(const EventCallback &cb)
     {
         errorCallback_ = cb;
+    }
+    void setCloseCallback(const EventCallback &cb)
+    {
+        CloseCallback_ = cb;
     }
 
     int fd() const { return fd_; }
@@ -69,9 +74,12 @@ private:
     int revents_;
     int index_;   // used by Poller
 
+    bool eventHandling_;
+
     EventCallback readCallback_;
     EventCallback writeCallback_;
     EventCallback errorCallback_;
+    EventCallback CloseCallback_;
 };
 
 }

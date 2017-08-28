@@ -21,9 +21,15 @@ Channel::Channel(EventLoop *loop, int fd)
    fd_(fd),
    events_(0),
    revents_(0),
-   index_(-1)
+   index_(-1),
+   eventHandling_(false)
 {
 
+}
+
+Channel::~Channel()
+{
+    assert(!eventHandling_);
 }
 
 void Channel::update()
@@ -33,8 +39,16 @@ void Channel::update()
 
 void Channel::handleEvent()
 {
+    eventHandling_ = true;
+
     if (revents_ & POLLNVAL) {
         fprintf(stdout, "Channel::handleEvent() POLLNVAL");
+    }
+
+    if ((revents_ & POLLHUP) && !(revents_ & POLLIN)) {
+        if (CloseCallback_) {
+            CloseCallback_();
+        }
     }
 
     if (revents_ & (POLLERR | POLLNVAL)) {
@@ -52,4 +66,6 @@ void Channel::handleEvent()
             writeCallback_();
         }
     }
+
+    eventHandling_ = false;
 }
