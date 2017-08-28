@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 using namespace Dalin::Net;
+using std::placeholders::_1;
 
 TcpConnection::TcpConnection(EventLoop *loop,
                   const std::string &name,
@@ -29,7 +30,7 @@ TcpConnection::TcpConnection(EventLoop *loop,
    localAddr_(localAddr),
    peerAddr_(peerAddr)
 {
-    channel_->setReadCallback([&](){ this->handleRead(); });
+    channel_->setReadCallback(std::bind(&TcpConnection::handleRead, this, _1));
     channel_->setWriteCallback([&](){ this->handleWrite(); });
     channel_->setCloseCallback([&](){ this->handleClose(); });
     channel_->setErrorCallback([&](){ this->handleError(); });
@@ -63,18 +64,20 @@ void TcpConnection::connectDestroyed()
     loop_->removeChannel(channel_.get());
 }
 
-void TcpConnection::handleRead()
+void TcpConnection::handleRead(Timestamp receive)
 {
-    char buf[65536];
-    ssize_t n = ::read(channel_->fd(), buf, sizeof(buf));
+    int savedErrno = 0;
+    ssize_t n = inputBuffer_.readFd(channel_->fd(), &savedErrno);
 
     if (n > 0) {
-        messageCallback_(shared_from_this(), buf, n);
+        messageCallback_(shared_from_this(), &inputBuffer_, n);
     }
     else if (n == 0 ) {
         handleClose();
     }
     else {
+        errno = savedErrno;
+        fprintf(stderr, "Failed in TcpConnection::handleRead\n");
         handleError();
     }
 }

@@ -10,6 +10,7 @@
 #include "Callbacks.h"
 #include "InetAddress.h"
 #include "../base/Noncopyable.h"
+#include "Buffer.h"
 
 #include <memory>
 #include <string>
@@ -67,7 +68,7 @@ private:
     enum stateE { kConnecting, kConnected, kDisconnected};
 
     void setState(stateE s) { state_ = s; }
-    void handleRead();
+    void handleRead(Timestamp receiveTime);
     void handleWrite();
     void handleClose();
     void handleError();
@@ -84,7 +85,10 @@ private:
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
     CloseCallback closeCallback_;
+    Buffer inputBuffer_;
 };
+
+typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
 
 }
 }
