@@ -1,5 +1,5 @@
-test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o
-	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o -lpthread
+test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
+	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
 	rm *.o
 
 test1.o: test1.cpp
@@ -30,3 +30,5 @@ TcpServer.o: ../../src/net/TcpServer.cpp
 	g++ -c -std=c++11 ../../src/net/TcpServer.cpp
 TcpConnection.o: ../../src/net/TcpConnection.cpp
 	g++ -c -std=c++11 ../../src/net/TcpConnection.cpp
+Buffer.o: ../../src/net/Buffer.cpp
+	g++ -c -std=c++11 ../../src/net/Buffer.cpp
