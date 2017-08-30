@@ -40,7 +40,7 @@ void setNonblockAndCloseOnExec(int sockfd)
     // close-on-exec
     flags = ::fcntl(sockfd, F_GETFD, 0);
     flags |= FD_CLOEXEC;
-    ret = ::fcntl(sockfd, F_SETFD, 0);
+    ret = ::fcntl(sockfd, F_SETFD, flags);
 }
 
 }
