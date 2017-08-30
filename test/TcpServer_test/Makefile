@@ -1,14 +1,19 @@
-all: test1 test2
+all: test1 test2 test3
 	 rm *.o
 test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
 	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
 test2: test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
 	g++ -o test2 test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
+test3: test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
+	g++ -o test3 test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
 
 test1.o: test1.cpp
 	g++ -c -std=c++11 test1.cpp
 test2.o: test2.cpp
 	g++ -c -std=c++11 test2.cpp
+test3.o: test3.cpp
+	g++ -c -std=c++11 test3.cpp
+
 Thread.o: ../../src/base/Thread.cpp
 	g++ -c -std=c++11 ../../src/base/Thread.cpp
 EventLoop.o: ../../src/net/EventLoop.cpp
