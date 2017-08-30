@@ -51,6 +51,7 @@ public:
     int events() const { return events_; }
     void set_revents(int revt) { revents_ = revt; }
     bool isNoneEvent() const { return events_ == kNoneEvent; }
+    bool isWriting() const { return events_ & kWriteEvent; }
 
     void enableReading() { events_ |= kReadEvent; update(); }
     void enableWriting() { events_ |= kWriteEvent; update(); }
