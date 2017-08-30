@@ -32,7 +32,7 @@ void onMessage(const Dalin::Net::TcpConnectionPtr &conn,
             conn->name().c_str(),
             receiveTime.toString().c_str());
 
-    printf("onMessage(): [%s]\n", buf->retrieveAsString().c_str());
+    conn->send(buf->retrieveAsString());
 }
 
 int main()
