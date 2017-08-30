@@ -41,6 +41,9 @@ public:
 
     void shutdownWrite();
 
+    // Enable / disable TCP_NODELAY
+    void setTcpNoDelay(bool on);
+
 private:
     const int sockfd_;
 };
