@@ -37,9 +37,18 @@ public:
         connectionCallback_ = cb;
     }
 
+    // Set Message callback.
+    // Not thread safe.
     void setMessageCallback(const MessageCallback &cb)
     {
         messageCallback_ = cb;
+    }
+
+    // Set Write complete callback.
+    // Not thread safe.
+    void setWriteCompleteCallback(const WriteCompleteCallback &cb)
+    {
+        writeCompleteCallback_ = cb;
     }
 
 private:
@@ -54,6 +63,7 @@ private:
     std::unique_ptr<Acceptor> acceptor_;
     ConnectionCallback connectionCallback_;
     MessageCallback messageCallback_;
+    WriteCompleteCallback writeCompleteCallback_;
     bool started_;
     int nextConnId_;
     ConnectionMap connections_;

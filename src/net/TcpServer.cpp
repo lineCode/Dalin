@@ -70,6 +70,7 @@ void TcpServer::newConnection(int sockfd, const InetAddress &peerAddr)
     connections_[connName] = conn;
     conn->setConnectionCallback(connectionCallback_);
     conn->setMessageCallback(messageCallback_);
+    conn->setWriteCompleteCallback(writeCompleteCallback_);
     conn->setCloseCallback([&](const TcpConnectionPtr &conn){ this->removeConnection(conn); });
     conn->connectEstablished();
 }
