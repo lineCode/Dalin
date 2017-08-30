@@ -13,6 +13,7 @@
 #include <sys/eventfd.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <signal.h>
 
 using namespace Dalin;
 using namespace Dalin::Net;
@@ -34,8 +35,18 @@ int createEventfd()
     return eventfd;
 }
 
+class IgnoreSigPipe {
+public:
+    IgnoreSigPipe()
+    {
+        ::signal(SIGPIPE, SIG_IGN);
+    }
+};
+
 }
 }
+
+Dalin::Detail::IgnoreSigPipe initObj;
 
 EventLoop::EventLoop()
  : looping_(false),
