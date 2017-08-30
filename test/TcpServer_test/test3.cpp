@@ -16,23 +16,27 @@
 std::string g_message1;
 std::string g_message2;
 
-int g_sleepSeconds = 0;
-
 void onConnection(const Dalin::Net::TcpConnectionPtr &conn)
 {
     if (conn->connected()) {
-        printf("onConnection(): new connection [%s] from %s\n",
-                conn->name().c_str(), conn->peerAddress().toHostPort().c_str());
+        printf("onConnection(): tid = %d new connection [%s] from %s\n",
+                Dalin::CurrentThread::tid(),
+                conn->name().c_str(),
+                conn->peerAddress().toHostPort().c_str());
 
-        if ( g_sleepSeconds > 0) {
-            ::sleep(g_sleepSeconds);
+        if (!g_message1.empty()) {
+            conn->send(g_message1);
         }
-        conn->send(g_message1);
-        conn->send(g_message2);
+        if (!g_message2.empty()) {
+            conn->send(g_message2);
+        }
+
         conn->shutdown();
     }
     else {
-        printf("onConnection(): connection [%s] is down\n", conn->name().c_str());
+        printf("onConnection(): tid = %d connection [%s] is down\n",
+                Dalin::CurrentThread::tid(),
+                conn->name().c_str());
     }
 }
 
@@ -40,7 +44,8 @@ void onMessage(const Dalin::Net::TcpConnectionPtr &conn,
                Dalin::Net::Buffer *buf,
                Dalin::Timestamp receiveTime)
 {
-    printf("onMessage(): received %zd bytes from connection [%s] at %s\n",
+    printf("onMessage(): tid = %d received %zd bytes from connection [%s] at %s\n",
+            Dalin::CurrentThread::tid(),
             buf->readableBytes(),
             conn->name().c_str(),
             receiveTime.toString().c_str());
@@ -60,10 +65,6 @@ int main(int argc, char *argv[])
         len2 = atoi(argv[2]);
     }
 
-    if (argc > 3) {
-        g_sleepSeconds = atoi(argv[3]);
-    }
-
     g_message1.resize(len1);
     g_message2.resize(len2);
     std::fill(g_message1.begin(), g_message1.end(), 'A');
@@ -75,6 +76,9 @@ int main(int argc, char *argv[])
     Dalin::Net::TcpServer server(&loop, listenAddr);
     server.setConnectionCallback(onConnection);
     server.setMessageCallback(onMessage);
+    if (argc > 3) {
+        server.setThreadNum(atoi(argv[3]));
+    }
     server.start();
 
     loop.loop();

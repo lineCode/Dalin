@@ -1,11 +1,11 @@
 all: test1 test2 test3
 	 rm *.o
-test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
-	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
-test2: test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
-	g++ -o test2 test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
-test3: test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o
-	g++ -o test3 test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o -lpthread
+test1: test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o
+	g++ -o test1 test1.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o -lpthread
+test2: test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o
+	g++ -o test2 test2.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o -lpthread
+test3: test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o
+	g++ -o test3 test3.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o Acceptor.o InetAddress.o SocketsOps.o Socket.o TcpServer.o TcpConnection.o Buffer.o EventLoopThreadPool.o EventLoopThread.o -lpthread
 
 test1.o: test1.cpp
 	g++ -c -std=c++11 test1.cpp
@@ -42,3 +42,7 @@ TcpConnection.o: ../../src/net/TcpConnection.cpp
 	g++ -c -std=c++11 ../../src/net/TcpConnection.cpp
 Buffer.o: ../../src/net/Buffer.cpp
 	g++ -c -std=c++11 ../../src/net/Buffer.cpp
+EventLoopThread.o: ../../src/net/EventLoopThread.cpp
+	g++ -c -std=c++11 ../../src/net/EventLoopThread.cpp
+EventLoopThreadPool.o: ../../src/net/EventLoopThreadPool.cpp
+	g++ -c -std=c++11 ../../src/net/EventLoopThreadPool.cpp

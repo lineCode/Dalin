@@ -15,11 +15,15 @@
 void onConnection(const Dalin::Net::TcpConnectionPtr &conn)
 {
     if (conn->connected()) {
-        printf("onConnection(): new connection [%s] from %s\n",
-                conn->name().c_str(), conn->peerAddress().toHostPort().c_str());
+        printf("onConnection(): tid = %d new connection [%s] from %s\n",
+                Dalin::CurrentThread::tid(),
+                conn->name().c_str(),
+                conn->peerAddress().toHostPort().c_str());
     }
     else {
-        printf("onConnection(): connection [%s] is down\n", conn->name().c_str());
+        printf("onConnection(): tid = %d connection [%s] is down\n",
+                Dalin::CurrentThread::tid(),
+                conn->name().c_str());
     }
 }
 
@@ -27,7 +31,8 @@ void onMessage(const Dalin::Net::TcpConnectionPtr &conn,
                Dalin::Net::Buffer *buf,
                Dalin::Timestamp receiveTime)
 {
-    printf("onMessage(): received %zd bytes from connection [%s] at %s\n",
+    printf("onMessage(): tid = %d received %zd bytes from connection [%s] at %s\n",
+            Dalin::CurrentThread::tid(),
             buf->readableBytes(),
             conn->name().c_str(),
             receiveTime.toString().c_str());
@@ -35,7 +40,7 @@ void onMessage(const Dalin::Net::TcpConnectionPtr &conn,
     conn->send(buf->retrieveAsString());
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     printf("main(): pid = %d\n", getpid());
 
@@ -45,6 +50,9 @@ int main()
     Dalin::Net::TcpServer server(&loop, listenAddr);
     server.setConnectionCallback(onConnection);
     server.setMessageCallback(onMessage);
+    if (argc > 1) {
+        server.setThreadNum(atoi(argv[1]));
+    }
     server.start();
 
     loop.loop();
