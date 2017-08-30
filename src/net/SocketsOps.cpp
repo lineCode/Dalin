@@ -112,6 +112,13 @@ void SocketsOps::close(int sockfd)
     }
 }
 
+void SocketsOps::shutdownWrite(int sockfd)
+{
+    if (::shutdown(sockfd, SHUT_WR) < 0) {
+        fprintf(stderr, "Failed in SocketsOps::shutdownWrite()\n");
+    }
+}
+
 void SocketsOps::toHostPort(char *buf, size_t size, const struct sockaddr_in &addr)
 {
     char host[INET_ADDRSTRLEN] = "INVALID";
