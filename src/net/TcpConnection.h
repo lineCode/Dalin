@@ -41,6 +41,11 @@ public:
 
     bool connected() const { return state_ == kConnected; }
 
+    // Thread safe.
+    void send(const std::string &message);
+    // Thread safe.
+    void shutdown();
+
     void setConnectionCallback(const ConnectionCallback &cb)
     {
         connectionCallback_ = cb;
@@ -65,13 +70,15 @@ public:
     void connectDestroyed();
 
 private:
-    enum stateE { kConnecting, kConnected, kDisconnected};
+    enum stateE { kConnecting, kConnected, kDisconnecting, kDisconnected};
 
     void setState(stateE s) { state_ = s; }
     void handleRead(Timestamp receiveTime);
     void handleWrite();
     void handleClose();
     void handleError();
+    void sendInLoop(const std::string &message);
+    void shutdownInLoop();
 
     EventLoop *loop_;
     std::string name_;
@@ -86,6 +93,7 @@ private:
     MessageCallback messageCallback_;
     CloseCallback closeCallback_;
     Buffer inputBuffer_;
+    Buffer outputBuffer_;
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;

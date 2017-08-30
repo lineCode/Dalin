@@ -41,6 +41,64 @@ TcpConnection::~TcpConnection()
 
 }
 
+void TcpConnection::send(const std::string &message)
+{
+    if (state_ == kConnected) {
+        if (loop_->isInLoopThread()) {
+            sendInLoop(message);
+        }
+        else {
+            loop_->runInLoop(std::bind(&TcpConnection::sendInLoop, this, message));
+        }
+    }
+}
+
+void TcpConnection::sendInLoop(const std::string &message)
+{
+    loop_->assertInLoopThread();
+
+    ssize_t nwrote = 0;
+    // if nothing in ouput queue, try writing directly.
+    if (!channel_->isWriting() && outputBuffer_.readableBytes() == 0) {
+        nwrote = ::write(channel_->fd(), message.data(), message.size());
+        if (nwrote >= 0 ) {
+            if (static_cast<size_t>(nwrote) < message.size()) {
+                // will write more data
+            }
+        }
+        else {
+            nwrote = 0;
+            if (errno != EWOULDBLOCK) {
+                fprintf(stderr, "Failed in TcpConnection::sendInLoop()\n");
+            }
+        }
+    }
+
+    assert(nwrote >= 0);
+    if (static_cast<size_t>(nwrote) < message.size()) {
+        outputBuffer_.append(message.data() + nwrote, message.size() - nwrote);
+        if (!channel_->isWriting()) {
+            channel_->enableWriting();
+        }
+    }
+}
+
+void TcpConnection::shutdown()
+{
+    if (state_ == kConnected) {
+        setState(kDisconnecting);
+        loop_->runInLoop([&](){ this->shutdownInLoop(); });
+    }
+}
+
+void TcpConnection::shutdownInLoop()
+{
+    loop_->assertInLoopThread();
+    if (!channel_->isWriting()) {
+        socket_->shutdownWrite();
+    }
+}
+
 void TcpConnection::connectEstablished()
 {
     loop_->assertInLoopThread();
@@ -55,7 +113,7 @@ void TcpConnection::connectEstablished()
 void TcpConnection::connectDestroyed()
 {
     loop_->assertInLoopThread();
-    assert(state_ == kConnected);
+    assert(state_ == kConnected || state_ == kDisconnecting);
 
     setState(kDisconnected);
     channel_->disableAll();
@@ -84,13 +142,33 @@ void TcpConnection::handleRead(Timestamp receive)
 
 void TcpConnection::handleWrite()
 {
+    loop_->assertInLoopThread();
 
+    if (channel_->isWriting()) {
+        ssize_t n = ::write(channel_->fd(), outputBuffer_.peek(), outputBuffer_.readableBytes());
+        if (n > 0) {
+            outputBuffer_.retrieve(n);
+            if (outputBuffer_.readableBytes() == 0) {
+                channel_->disableWriting();
+                if (state_ == kDisconnecting) {
+                    shutdownInLoop();
+                }
+            }
+            else {
+                // will write more data
+            }
+        }
+        else {
+            fprintf(stderr, "Failed in TcpConnection::handleWrite()\n");
+            abort();
+        }
+    }
 }
 
 void TcpConnection::handleClose()
 {
     loop_->assertInLoopThread();
-    assert(state_ == kConnected);
+    assert(state_ == kConnected || state_ == kDisconnecting);
 
     // we don't close fd, leave it to dtor, in order to find leaks easily.
     channel_->disableAll();
