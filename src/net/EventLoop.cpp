@@ -207,3 +207,8 @@ TimerId EventLoop::runEvery(double interval, const TimerCallback &cb)
     Timestamp time(addTime(Timestamp::now(), interval));
     return timerQueue_->addTimer(cb, time, interval);
 }
+
+void EventLoop::cancel(TimerId timerId)
+{
+    return timerQueue_->cancel(timerId);
+}
