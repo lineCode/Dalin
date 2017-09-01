@@ -56,6 +56,11 @@ int SocketsOps::createNonblockingOrDie()
     return sockfd;
 }
 
+int SocketsOps::connect(int sockfd, const struct sockaddr_in &addr)
+{
+    return ::connect(sockfd, sockaddr_cast(&addr), sizeof(addr));
+}
+
 void SocketsOps::bindOrDie(int sockfd, const struct sockaddr_in &addr)
 {
     int ret = ::bind(sockfd, sockaddr_cast(&addr), sizeof(addr));
@@ -158,6 +163,19 @@ struct sockaddr_in SocketsOps::getLocalAddr(int sockfd)
     return localAddr;
 }
 
+struct sockaddr_in SocketsOps::getPeerAddr(int sockfd)
+{
+    struct sockaddr_in peerAddr;
+    bzero(&peerAddr, sizeof(peerAddr));
+
+    socklen_t addrLen = sizeof(peerAddr);
+    if (::getpeername(sockfd, sockaddr_cast(&peerAddr), &addrLen) < 0) {
+        fprintf(stderr, "Failed in SocketsOps::getPeerAddr()\n");
+    }
+
+    return peerAddr;
+}
+
 int SocketsOps::getSocketError(int sockfd)
 {
     int optVal;
@@ -169,4 +187,13 @@ int SocketsOps::getSocketError(int sockfd)
     else {
         return optVal;
     }
+}
+
+bool SocketsOps::isSelfConnect(int sockfd)
+{
+    struct sockaddr_in localAddr = getLocalAddr(sockfd);
+    struct sockaddr_in peerAddr = getPeerAddr(sockfd);
+
+    return localAddr.sin_port == peerAddr.sin_port
+            && localAddr.sin_addr.s_addr == peerAddr.sin_addr.s_addr;
 }
