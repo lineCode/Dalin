@@ -28,6 +28,13 @@ void print(const char *msg)
     }
 }
 
+Dalin::Net::TimerId toCancel;
+void cancelSelf()
+{
+    print("cancelSelf()");
+    g_loop->cancel(toCancel);
+}
+
 int main()
 {
     printTid();
@@ -41,8 +48,11 @@ int main()
     loop.runAfter(1.5, [](){ print("once1.5"); });
     loop.runAfter(2.5, [](){ print("once2.5"); });
     loop.runAfter(3.5, [](){ print("once3.5"); });
-    loop.runEvery(2, [](){ print("every2"); });
+
+    Dalin::Net::TimerId t = loop.runEvery(2, [](){ print("every2"); });
     loop.runEvery(3, [](){ print("every3"); });
+    loop.runEvery(10, std::bind(&Dalin::Net::EventLoop::cancel, &loop, t));
+    toCancel = loop.runEvery(5, cancelSelf);
 
     loop.loop();
     print("main loop exits");

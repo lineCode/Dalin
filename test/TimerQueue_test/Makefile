@@ -1,7 +1,7 @@
 test: test.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o
 	g++ -o test test.o Thread.o EventLoop.o Poller.o TimerQueue.o Channel.o Timestamp.o Timer.o -lpthread
 	rm *.o
-	
+
 test.o: test.cpp
 	g++ -c -std=c++11 test.cpp
 Thread.o: ../../src/base/Thread.cpp
