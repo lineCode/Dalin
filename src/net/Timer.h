@@ -11,6 +11,8 @@
 #include "../base/Timestamp.h"
 #include "Callbacks.h"
 
+#include <atomic>
+
 namespace Dalin {
 namespace Net {
 
@@ -21,7 +23,8 @@ public:
      : callback_(cb),
        expiration_(when),
        interval_(interval),
-       repeat_(interval > 0.0)
+       repeat_(interval > 0.0),
+       sequence_(++s_numCreated_)
      {
 
      }
@@ -33,6 +36,7 @@ public:
 
      Timestamp expiration() const { return expiration_; }
      bool repeat() const { return repeat_; }
+     int64_t sequence() const { return sequence_; }
 
      void restart(Timestamp now);
 
@@ -41,6 +45,9 @@ private:
     Timestamp expiration_;
     const double interval_;
     const bool repeat_;
+    const int64_t sequence_;
+
+    static std::atomic<int64_t> s_numCreated_;
 };
 
 }
