@@ -36,13 +36,16 @@ public:
     // Must be thread safe, usually be called from other threads.
     TimerId addTimer(const TimerCallback &cb, Timestamp when, double interval);
 
-    // void cancel(TimerId timerId); // TODO
+    void cancel(TimerId timerId);
 
 private:
     typedef std::pair<Timestamp, Timer*> Entry;
     typedef std::set<Entry> TimerList;
+    typedef std::pair<Timer *, int64_t> ActiveTimer;
+    typedef std::set<ActiveTimer> ActiveTimerSet;
 
     void addTimerInLoop(Timer *timer);
+    void cancelInLoop(TimerId timerId);
     // called when timerfd alarms
     void handleRead();
     // move out all expired timers
@@ -55,6 +58,11 @@ private:
     const int timerfd_;
     Channel timerfdChannel_;
     TimerList timers_; // Timer list sorted by expiration
+
+    // for cancel()
+    bool callingExpiredTimers_; // atomic
+    ActiveTimerSet activeTimers_;
+    ActiveTimerSet cancelingTimers_;
 };
 
 }
