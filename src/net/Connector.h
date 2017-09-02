@@ -70,7 +70,7 @@ private:
     TimerId timerId_;
 };
 
-typedef std::unique_ptr<Connector> ConnectorPtr;
+typedef std::shared_ptr<Connector> ConnectorPtr;
 
 }
 }
